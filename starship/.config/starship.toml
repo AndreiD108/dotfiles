@@ -8,6 +8,7 @@ $hostname\
 [](bg:peach fg:teal)\
 $directory\
 ([](bg:yellow fg:peach)$git_branch$git_status[](fg:yellow bg:lavender))\
+${custom.no_git_transition}\
 $time\
 [ ](fg:lavender)\
 $cmd_duration\
@@ -100,6 +101,11 @@ style = "bg:lavender"
 disabled = false
 show_notifications = true
 min_time_to_notify = 45000
+
+[custom.no_git_transition]
+when = "! git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+command = ""
+format = "[](fg:peach bg:lavender)"
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
