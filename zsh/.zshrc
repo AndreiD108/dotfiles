@@ -1,3 +1,9 @@
+# ─── PATH dedup ───────────────────────────────────────────────────────────────
+# Re-sourcing this file otherwise grows PATH unboundedly, since most lines
+# below prepend to it without checking. typeset -U makes assignments to path/
+# PATH automatically deduplicated.
+typeset -U path PATH
+
 # ─── Zinit ────────────────────────────────────────────────────────────────────
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 if [[ ! -d "$ZINIT_HOME" ]]; then
