@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# th — tmux cheatsheet (Catppuccin Mocha palette)
+
+mauve=$'\e[38;2;203;166;247m'
+peach=$'\e[38;2;250;179;135m'
+sapphire=$'\e[38;2;116;199;236m'
+subtext=$'\e[38;2;166;173;200m'
+bold=$'\e[1m'
+reset=$'\e[0m'
+
+sec() { printf "\n${bold}${mauve}%s${reset}\n" "$1"; }
+row() { printf "  ${sapphire}%-16s${reset} %s\n" "$1" "$2"; }
+
+printf "${bold}${mauve}tmux cheatsheet${reset}     ${subtext}prefix: ${peach}Ctrl-s${reset}\n"
+
+sec "SESSIONS"
+row "prefix d"        "detach"
+row "prefix s"        "session picker"
+row "prefix \$"        "rename session"
+
+sec "WINDOWS (tabs)"
+row "prefix c"        "new window"
+row "prefix 1-9"      "switch to window N"
+row "prefix n / p"    "next / previous"
+row "prefix w"        "window picker"
+row "prefix ,"        "rename window"
+row "prefix &"        "kill window"
+
+sec "PANES (splits)"
+row "prefix -"        "split horizontal (new pane below)"
+row "prefix |"        "split vertical (new pane right)"
+row "prefix arrows"   "switch panes"
+row "prefix z"        "toggle zoom (fullscreen current pane)"
+row "prefix x"        "kill pane"
+
+sec "COPY MODE"
+row "prefix ["        "enter copy mode"
+row "arrows / PgUp"   "scroll"
+row "Space"           "start selection"
+row "Enter"           "copy selection"
+row "prefix ]"        "paste"
+
+sec "MISC"
+row "prefix r"        "reload tmux config"
+row "prefix ?"        "list all default bindings (verbose)"
+row "prefix :"        "tmux command prompt"
+
+sec "SHELL ALIASES"
+row "t"               "list sessions"
+row "t <name>"        "attach (or create) <name>"
+row "tp"              "session named after current dir"
+row "tl"              "tmux ls"
+row "ta"              "fzf attach picker"
+row "tk"              "fzf kill picker"
+row "tk <name>"       "kill <name>"
+row "tks"             "kill all sessions (server)"
+
+echo

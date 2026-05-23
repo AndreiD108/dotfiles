@@ -1,0 +1,54 @@
+# Example machine-local config.
+#
+# Copy this to ~/.config/zsh/machine.zsh and edit per machine.
+# This file is sourced AFTER everything in the portable .zshrc.
+#
+# Anything host-specific lives here: PATH additions, language toolchains,
+# work env vars, machine-tuned settings. Nothing in this file should ever
+# end up in the public dotfiles repo.
+
+# ─── Machine-specific PATH entries ────────────────────────────────────────────
+# export PATH="$HOME/.services/cli:$PATH"
+# export PATH="$HOME/.local/share/JetBrains/Toolbox/scripts:$PATH"
+
+# ─── NVM (Node Version Manager) ───────────────────────────────────────────────
+# export NVM_DIR="$HOME/.nvm"
+# [[ -s "$NVM_DIR/nvm.sh" ]] && source "$NVM_DIR/nvm.sh"
+# [[ -s "$NVM_DIR/bash_completion" ]] && source "$NVM_DIR/bash_completion"
+
+# ─── Go ───────────────────────────────────────────────────────────────────────
+# export GOPATH="$HOME/go"
+# export GOROOT="$HOME/.go"
+# export PATH="$GOROOT/bin:$GOPATH/bin:$PATH"
+# export GOPRIVATE="github.com/your-org/*"
+
+# ─── Python (pyenv) ───────────────────────────────────────────────────────────
+# export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# if command -v pyenv >/dev/null; then
+#   eval "$(pyenv init - zsh)"
+#   eval "$(pyenv virtualenv-init -)"
+# fi
+
+# ─── Rust / Cargo ─────────────────────────────────────────────────────────────
+# [[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+# ─── Bun ──────────────────────────────────────────────────────────────────────
+# export BUN_INSTALL="$HOME/.bun"
+# export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ─── Node tuning ──────────────────────────────────────────────────────────────
+# export NODE_OPTIONS="--max-old-space-size=8192"
+
+# ─── CUDA ─────────────────────────────────────────────────────────────────────
+# export CUDA_HOME=/usr/local/cuda
+# export PATH="$CUDA_HOME/bin:$PATH"
+# export LD_LIBRARY_PATH="$CUDA_HOME/lib64:$LD_LIBRARY_PATH"
+
+# ─── Editor overrides ─────────────────────────────────────────────────────────
+# export EDITOR="$HOME/.local/share/bob/nvim-bin/nvim"
+# export VISUAL="zed --wait"
+
+# ─── Ubuntu/Debian aliases (fd-find -> fd, bat -> batcat) ─────────────────────
+# command -v fdfind >/dev/null && alias fd=fdfind
+# command -v batcat >/dev/null && alias bat=batcat
