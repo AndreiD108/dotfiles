@@ -1,6 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
+$cmd_duration\
 [](teal)\
 $os\
 $username\
@@ -11,7 +12,6 @@ $directory\
 ${custom.no_git_transition}\
 $time\
 [ ](fg:lavender)\
-$cmd_duration\
 $line_break\
 $character"""
 
@@ -96,8 +96,7 @@ vimcmd_visual_symbol = '[❮](bold fg:yellow)'
 
 [cmd_duration]
 show_milliseconds = true
-format = "^ in $duration "
-style = "bg:lavender"
+format = "[ran for $duration](fg:overlay1)\n"
 disabled = false
 show_notifications = true
 min_time_to_notify = 45000
