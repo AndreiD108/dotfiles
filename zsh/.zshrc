@@ -1,8 +1,9 @@
-# ─── PATH dedup ───────────────────────────────────────────────────────────────
-# Re-sourcing this file otherwise grows PATH unboundedly, since most lines
-# below prepend to it without checking. typeset -U makes assignments to path/
-# PATH automatically deduplicated.
-typeset -U path PATH
+# ─── Re-source guards ─────────────────────────────────────────────────────────
+# Without these, every `source ~/.zshrc` makes the next one slower:
+#   - path / fpath entries get re-prepended; without -U they accumulate.
+#   - compinit re-scans the growing fpath and re-autoloads ~hundreds of
+#     completion functions, so total work grows super-linearly.
+typeset -gU path fpath PATH FPATH
 
 # ─── Zinit ────────────────────────────────────────────────────────────────────
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -41,7 +42,10 @@ setopt NO_BEEP
 setopt GLOB_DOTS
 
 # ─── Completion ───────────────────────────────────────────────────────────────
-autoload -Uz compinit && compinit
+if [[ -z $__ZSHRC_COMPINIT_DONE ]]; then
+  autoload -Uz compinit && compinit
+  __ZSHRC_COMPINIT_DONE=1
+fi
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
