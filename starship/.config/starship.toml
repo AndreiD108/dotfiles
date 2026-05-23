@@ -7,12 +7,9 @@ $username\
 $hostname\
 [](bg:peach fg:teal)\
 $directory\
-[](bg:yellow fg:peach)\
-$git_branch\
-$git_status\
-[](fg:green bg:sapphire)\
+([](bg:yellow fg:peach)$git_branch$git_status[](fg:yellow bg:lavender))\
 $time\
-[ ](fg:sapphire)\
+[ ](fg:lavender)\
 $cmd_duration\
 $line_break\
 $character"""
