@@ -80,7 +80,7 @@ format = '[[($all_status$ahead_behind )](fg:crust bg:yellow)]($style)'
 disabled = false
 time_format = "%R"
 style = "bg:lavender"
-format = '[[  $time ](fg:crust bg:lavender)]($style)'
+format = '[[  $time](fg:crust bg:lavender)]($style)'
 
 [line_break]
 disabled = true
