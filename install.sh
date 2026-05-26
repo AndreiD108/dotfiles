@@ -130,6 +130,19 @@ done < <(
     (cd "$REPO_DIR/$pkg" && find . -mindepth 1 \( -type f -o -type l \) -printf '%P\n')
   done | while read -r rel; do
     target="$HOME/$rel"
+    # If any parent dir along the path is already a symlink, stow has folded
+    # that subtree — the file is repo-managed via the parent link, not a conflict.
+    parent_rel="${rel%/*}"
+    if [[ "$parent_rel" != "$rel" ]]; then
+      dir="$HOME"
+      IFS='/' read -ra parts <<< "$parent_rel"
+      folded=0
+      for part in "${parts[@]}"; do
+        dir="$dir/$part"
+        if [[ -L "$dir" ]]; then folded=1; break; fi
+      done
+      [[ $folded -eq 1 ]] && continue
+    fi
     if [[ -e "$target" && ! -L "$target" ]]; then
       echo "$target"
     fi
