@@ -12,6 +12,8 @@ cd "$(dirname "$0")"
 REPO_DIR="$(pwd)"
 PACKAGES="tmux zsh starship bin"
 
+OXKER_VERSION=0.13.2
+
 BACKUP=0
 SKIP_PKG=0
 SKIP_TOOLS=0
@@ -28,7 +30,7 @@ Usage: $0 [--backup] [--skip-pkg] [--skip-tools]
   --backup       Move conflicting files to <path>.backup.<timestamp> before stowing.
                  Without this flag, the script aborts on conflicts.
   --skip-pkg     Skip system package installs.
-  --skip-tools   Skip starship and zoxide user-local installers.
+  --skip-tools   Skip starship, zoxide, and oxker user-local installers.
 EOF
       exit 0 ;;
     *) echo "Unknown arg: $arg" >&2; exit 1 ;;
@@ -88,8 +90,30 @@ if [[ $SKIP_TOOLS -eq 0 ]]; then
   else
     echo "zoxide already installed."
   fi
+  if ! command -v oxker >/dev/null 2>&1; then
+    echo "Installing oxker v$OXKER_VERSION..."
+    case "$(uname -s)/$(uname -m)" in
+      Linux/x86_64)   OXKER_ASSET=oxker_linux_x86_64.tar.gz ;;
+      Linux/aarch64)  OXKER_ASSET=oxker_linux_aarch64.tar.gz ;;
+      Linux/armv6l)   OXKER_ASSET=oxker_linux_armv6.tar.gz ;;
+      Darwin/arm64)   OXKER_ASSET=oxker_apple_darwin_aarch64.tar.gz ;;
+      *)              OXKER_ASSET="" ;;
+    esac
+    if [[ -n "$OXKER_ASSET" ]]; then
+      OXKER_TMP=$(mktemp -d)
+      curl -sSL "https://github.com/mrjackwills/oxker/releases/download/v$OXKER_VERSION/$OXKER_ASSET" \
+        | tar -xz -C "$OXKER_TMP"
+      mv "$OXKER_TMP/oxker" "$HOME/.local/bin/oxker"
+      chmod +x "$HOME/.local/bin/oxker"
+      rm -rf "$OXKER_TMP"
+    else
+      echo "  oxker: no prebuilt binary for $(uname -s)/$(uname -m), skipping."
+    fi
+  else
+    echo "oxker already installed."
+  fi
 else
-  echo "Skipping starship/zoxide (--skip-tools)."
+  echo "Skipping starship/zoxide/oxker (--skip-tools)."
 fi
 
 # ─── Make th executable (in case the +x bit didn't survive git) ───────────────
