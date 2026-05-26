@@ -74,23 +74,30 @@ else
   echo "Skipping system packages (--skip-pkg)."
 fi
 
-# ─── Install starship + zoxide (binaries only, no config touched) ─────────────
+# ─── Install starship + zoxide + oxker (binaries only, no config touched) ─────
+# Check PATH first, then ~/.local/bin directly — non-interactive SSH shells
+# usually don't have ~/.local/bin on PATH, so command -v alone misses our own
+# previously-installed binaries.
+have_bin() {
+  command -v "$1" >/dev/null 2>&1 || [[ -x "$HOME/.local/bin/$1" ]]
+}
+
 if [[ $SKIP_TOOLS -eq 0 ]]; then
   echo
   mkdir -p "$HOME/.local/bin"
-  if ! command -v starship >/dev/null 2>&1; then
+  if ! have_bin starship; then
     echo "Installing starship..."
     curl -sS https://starship.rs/install.sh | sh -s -- -b "$HOME/.local/bin" -y
   else
     echo "starship already installed."
   fi
-  if ! command -v zoxide >/dev/null 2>&1; then
+  if ! have_bin zoxide; then
     echo "Installing zoxide..."
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
   else
     echo "zoxide already installed."
   fi
-  if ! command -v oxker >/dev/null 2>&1; then
+  if ! have_bin oxker; then
     echo "Installing oxker v$OXKER_VERSION..."
     case "$(uname -s)/$(uname -m)" in
       Linux/x86_64)   OXKER_ASSET=oxker_linux_x86_64.tar.gz ;;
